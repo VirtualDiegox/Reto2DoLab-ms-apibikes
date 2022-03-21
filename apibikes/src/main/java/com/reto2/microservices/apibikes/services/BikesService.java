@@ -61,7 +61,7 @@ public class BikesService {
                 newBike.getBrand(),
                 newBike.getType(),
                 newBike.getColor(),
-                false
+                true
             ));
             BikeDTO bikeDTO = new BikeDTO(
                     bike.getId(),
@@ -145,6 +145,28 @@ public class BikesService {
                 return updatedBikeDTO;
             }else{
                 return new BikeDTO();
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    public void updateState(String id, Boolean updated){
+        try {
+            Optional<Bike> oldBikeData = bikesRepository.findById(id);
+            if (oldBikeData.isPresent()){
+                Bike bikeToUpdate = oldBikeData.get();
+                bikeToUpdate.setState(updated);
+                Bike updatedBike = bikesRepository.save(bikeToUpdate);
+                BikeDTO updatedBikeDTO = new BikeDTO(
+                    updatedBike.getId(),
+                    updatedBike.getBrand(),
+                    updatedBike.getType(),
+                    updatedBike.getColor(),
+                    updatedBike.getState()
+                );
+                System.out.println("Bike updated");
+            }else{
+                System.out.println("Bike dont exist");
             }
         } catch (Exception e) {
             throw e;
